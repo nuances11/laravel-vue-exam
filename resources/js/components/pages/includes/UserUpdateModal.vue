@@ -42,7 +42,7 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="secondary" type="submit" text>
+                    <v-btn class="ma-2 btn-action" type="submit" text>
                         Update User
                     </v-btn>
                     <v-btn color="primary" text @click="closeModal(), clearForm()">

@@ -40987,7 +40987,8 @@ var render = function () {
                     _c(
                       "v-btn",
                       {
-                        attrs: { color: "secondary", type: "submit", text: "" },
+                        staticClass: "ma-2 btn-action",
+                        attrs: { type: "submit", text: "" },
                       },
                       [
                         _vm._v(
@@ -41303,7 +41304,10 @@ var render = function () {
                 _vm._v(" "),
                 _c(
                   "v-btn",
-                  { attrs: { color: "secondary", type: "submit", text: "" } },
+                  {
+                    staticClass: "ma-2 btn-action",
+                    attrs: { type: "submit", text: "" },
+                  },
                   [
                     _vm._v(
                       "\n                    Update Album\n                "
@@ -41524,7 +41528,8 @@ var render = function () {
                     _c(
                       "v-btn",
                       {
-                        attrs: { color: "secondary", type: "submit", text: "" },
+                        staticClass: "ma-2 btn-action",
+                        attrs: { type: "submit", text: "" },
                       },
                       [
                         _vm._v(
@@ -41862,7 +41867,10 @@ var render = function () {
                 _vm._v(" "),
                 _c(
                   "v-btn",
-                  { attrs: { color: "secondary", type: "submit", text: "" } },
+                  {
+                    staticClass: "ma-2 btn-action",
+                    attrs: { type: "submit", text: "" },
+                  },
                   [
                     _vm._v(
                       "\n                    Update Photo\n                "
@@ -42050,7 +42058,8 @@ var render = function () {
                     _c(
                       "v-btn",
                       {
-                        attrs: { color: "secondary", type: "submit", text: "" },
+                        staticClass: "ma-2 btn-action",
+                        attrs: { type: "submit", text: "" },
                       },
                       [
                         _vm._v(
@@ -42359,7 +42368,10 @@ var render = function () {
                 _vm._v(" "),
                 _c(
                   "v-btn",
-                  { attrs: { color: "secondary", type: "submit", text: "" } },
+                  {
+                    staticClass: "ma-2 btn-action",
+                    attrs: { type: "submit", text: "" },
+                  },
                   [
                     _vm._v(
                       "\n                    Update User\n                "
