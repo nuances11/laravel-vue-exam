@@ -77,10 +77,10 @@
                         align: 'middle',
                         value: 'id',
                     },
-                    { text: 'Album', value: 'album.title' },
-                    { text: 'Title', value: 'title' },
-                    { text: 'Image', value: 'thumbnailUrl' },
-                    { text: 'Action', value: 'action' }
+                    { text: 'ALBUM', value: 'album.title' },
+                    { text: 'TITLE', value: 'title' },
+                    { text: 'IMAGE', value: 'thumbnailUrl' },
+                    { text: 'ACTIONS', value: 'action' }
                 ],
                 photos: [],
                 albums: [],

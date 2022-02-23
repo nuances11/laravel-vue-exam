@@ -2615,16 +2615,16 @@ __webpack_require__.r(__webpack_exports__);
         align: 'middle',
         value: 'id'
       }, {
-        text: 'Album',
+        text: 'ALBUM',
         value: 'album.title'
       }, {
-        text: 'Title',
+        text: 'TITLE',
         value: 'title'
       }, {
-        text: 'Image',
+        text: 'IMAGE',
         value: 'thumbnailUrl'
       }, {
-        text: 'Action',
+        text: 'ACTIONS',
         value: 'action'
       }],
       photos: [],
