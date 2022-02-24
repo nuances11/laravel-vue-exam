@@ -39,7 +39,30 @@
                                 loading
                                 loading-text="Loading... Please wait"
                                 class="elevation-2">
-                                <template v-slot:item.thumbnailUrl="{ item }">
+                                <template v-slot:body="{items, headers}">
+                                    <tbody name="list" is="transition-group" v-if="items.length > 0">
+                                        <tr v-for="item in items" :key="item.id" class="item-row">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.album.title}}</td>
+                                        <td>{{item.title}}</td>
+                                        <td>
+                                            <img width="50px" :src="item.thumbnailUrl" :alt="item.title">
+                                        </td>
+                                        <td>
+                                            <div data-app>
+                                                <photo-update-modal @onSubmitSuccess="getAllPhotos()" :photoId="item.id"></photo-update-modal>
+                                                 <photo-delete-modal @onSubmitSuccess="getAllPhotos()" :photoId="item.id"></photo-delete-modal>
+                                            </div>
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody v-else>
+                                        <tr>
+                                        <td :colspan="headers.length" style="text-align: center">No data available.</td>
+                                        </tr>
+                                    </tbody>
+                                </template>
+                                <!-- <template v-slot:item.thumbnailUrl="{ item }">
                                     <img width="50px" :src="item.thumbnailUrl" :alt="item.title">
                                 </template>
                                 <template v-slot:item.action="{ item }">
@@ -48,7 +71,7 @@
                                         <photo-delete-modal @onSubmitSuccess="getAllPhotos()" :photoId="item.id"></photo-delete-modal>
                                     </div>
 
-                                </template>
+                                </template> -->
                             </v-data-table>
                         </div>
                     </div>

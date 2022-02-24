@@ -73,7 +73,7 @@ class AlbumController extends Controller
      */
     public function show(Album $album)
     {
-        return response()->json($album);
+        return response()->json($album->load('photos'));
     }
 
     /**
@@ -119,6 +119,23 @@ class AlbumController extends Controller
      */
     public function destroy(Album $album)
     {
+        // if (count($album->photos)) {
+        //     return response()->json([
+        //         'title' => 'Action failed.',
+        //         'message' => 'Can\'t delete albums with existing photos.',
+        //         'success' => false
+        //     ]);
+        // } else {
+        //     $album->delete();
+        //     return response()->json(
+        //         [
+        //             'message' => 'Album deleted',
+        //             'success' => true
+        //         ],
+        //         200
+        //     );
+        // }
+        // return response()->json($album->photos);
         $album->delete();
         return response()->json(
             [

@@ -1,23 +1,23 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="290">
         <template v-slot:activator="{ on, attrs }">
-            <button class="btn btn-action" v-bind="attrs" v-on="on">
+            <button class="btn btn-action" @click="checkUserData(userId)" v-bind="attrs" v-on="on">
                     <i class="bi bi-trash"></i>
             </button>
         </template>
         <v-card>
             <v-card-title class="text-h5">
-                Are you sure?
+                {{ dialogHeader }}
             </v-card-title>
             <v-card-text>
-                Data will be deleted permanently.
+                {{ dialogBody }}
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="green darken-1" text @click="dialog = false">
                     Cancel
                 </v-btn>
-                <v-btn color="red darken-1" text @click="deleteUser(userId)">
+                <v-btn color="red darken-1" v-if="canDelete" text @click="deleteUser(userId)">
                     Agree
                 </v-btn>
             </v-card-actions>
@@ -32,9 +32,28 @@
             return {
                 dialog: false,
                 users: [],
+                dialogHeader: '',
+                dialogBody: '',
+                canDelete: false,
             }
         },
         methods: {
+            checkUserData(id) {
+                this.axios
+                    .get(`${this.apiUrl}users/${id}`)
+                    .then(response => {
+                        if(response.data.albums.length) {
+                            console.log('Has existing albums');
+                            this.canDelete = false;
+                            this.dialogHeader = 'Action failed';
+                            this.dialogBody = 'Can\'t delete users with existing albums.';
+                        }else{
+                            this.canDelete = true;
+                            this.dialogHeader = 'Are you sure?';
+                            this.dialogBody = 'Data will be deleted permanently.';
+                        }
+                });
+            },
             deleteUser(id) {
                 this.axios
                     .delete(`${this.apiUrl}users/${id}`)

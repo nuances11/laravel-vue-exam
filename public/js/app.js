@@ -2469,6 +2469,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2539,6 +2559,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _includes_PhotoAddModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./includes/PhotoAddModal.vue */ "./resources/js/components/pages/includes/PhotoAddModal.vue");
 /* harmony import */ var _includes_PhotoUpdateModal_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./includes/PhotoUpdateModal.vue */ "./resources/js/components/pages/includes/PhotoUpdateModal.vue");
 /* harmony import */ var _includes_PhotoDeleteModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./includes/PhotoDeleteModal.vue */ "./resources/js/components/pages/includes/PhotoDeleteModal.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2672,6 +2715,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _includes_UserAddModal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./includes/UserAddModal.vue */ "./resources/js/components/pages/includes/UserAddModal.vue");
 /* harmony import */ var _includes_UserUpdateModal_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./includes/UserUpdateModal.vue */ "./resources/js/components/pages/includes/UserUpdateModal.vue");
 /* harmony import */ var _includes_UserDeleteModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./includes/UserDeleteModal.vue */ "./resources/js/components/pages/includes/UserDeleteModal.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2951,33 +3010,52 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
-      albums: []
+      albums: [],
+      dialogHeader: '',
+      dialogBody: '',
+      canDelete: false
     };
   },
   methods: {
-    deleteAlbum: function deleteAlbum(id) {
+    checkAlbumData: function checkAlbumData(id) {
       var _this = this;
 
-      this.axios["delete"]("".concat(this.apiUrl, "albums/").concat(id)).then(function (response) {
-        _this.getAllAlbums();
+      this.axios.get("".concat(this.apiUrl, "albums/").concat(id)).then(function (response) {
+        if (response.data.photos.length) {
+          console.log('Has existing photos');
+          _this.canDelete = false;
+          _this.dialogHeader = 'Action failed';
+          _this.dialogBody = 'Can\'t delete albums with existing photos.';
+        } else {
+          _this.canDelete = true;
+          _this.dialogHeader = 'Are you sure?';
+          _this.dialogBody = 'Data will be deleted permanently.';
+        }
+      });
+    },
+    deleteAlbum: function deleteAlbum(id) {
+      var _this2 = this;
 
-        var i = _this.albums.map(function (album) {
+      this.axios["delete"]("".concat(this.apiUrl, "albums/").concat(id)).then(function (response) {
+        _this2.getAllAlbums();
+
+        var i = _this2.albums.map(function (album) {
           return album.id;
         }).indexOf(id); // find index of your object
 
 
-        _this.albums.splice(i, 1);
+        _this2.albums.splice(i, 1);
 
-        _this.$emit('onSubmitSuccess');
+        _this2.$emit('onSubmitSuccess');
 
-        _this.dialog = false;
+        _this2.dialog = false;
       });
     },
     getAllAlbums: function getAllAlbums() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.axios.get("".concat(this.apiUrl, "albums")).then(function (response) {
-        _this2.albums = response.data;
+        _this3.albums = response.data;
       });
     }
   }
@@ -3638,33 +3716,52 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
-      users: []
+      users: [],
+      dialogHeader: '',
+      dialogBody: '',
+      canDelete: false
     };
   },
   methods: {
-    deleteUser: function deleteUser(id) {
+    checkUserData: function checkUserData(id) {
       var _this = this;
 
-      this.axios["delete"]("".concat(this.apiUrl, "users/").concat(id)).then(function (response) {
-        _this.getAllUsers();
+      this.axios.get("".concat(this.apiUrl, "users/").concat(id)).then(function (response) {
+        if (response.data.albums.length) {
+          console.log('Has existing albums');
+          _this.canDelete = false;
+          _this.dialogHeader = 'Action failed';
+          _this.dialogBody = 'Can\'t delete users with existing albums.';
+        } else {
+          _this.canDelete = true;
+          _this.dialogHeader = 'Are you sure?';
+          _this.dialogBody = 'Data will be deleted permanently.';
+        }
+      });
+    },
+    deleteUser: function deleteUser(id) {
+      var _this2 = this;
 
-        var i = _this.users.map(function (user) {
+      this.axios["delete"]("".concat(this.apiUrl, "users/").concat(id)).then(function (response) {
+        _this2.getAllUsers();
+
+        var i = _this2.users.map(function (user) {
           return user.id;
         }).indexOf(id); // find index of your object
 
 
-        _this.users.splice(i, 1);
+        _this2.users.splice(i, 1);
 
-        _this.$emit('onSubmitSuccess');
+        _this2.$emit('onSubmitSuccess');
 
-        _this.dialog = false;
+        _this2.dialog = false;
       });
     },
     getAllUsers: function getAllUsers() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.axios.get("".concat(this.apiUrl, "users")).then(function (response) {
-        _this2.users = response.data;
+        _this3.users = response.data;
       });
     }
   }
@@ -40383,34 +40480,75 @@ var render = function () {
                   },
                   scopedSlots: _vm._u([
                     {
-                      key: "item.action",
+                      key: "body",
                       fn: function (ref) {
-                        var item = ref.item
+                        var items = ref.items
+                        var headers = ref.headers
                         return [
-                          _c(
-                            "div",
-                            { attrs: { "data-app": "" } },
-                            [
-                              _c("album-update-modal", {
-                                attrs: { albumId: item.id },
-                                on: {
-                                  onSubmitSuccess: function ($event) {
-                                    return _vm.getAllAlbums()
-                                  },
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("album-delete-modal", {
-                                attrs: { albumId: item.id },
-                                on: {
-                                  onSubmitSuccess: function ($event) {
-                                    return _vm.getAllAlbums()
-                                  },
-                                },
-                              }),
-                            ],
-                            1
-                          ),
+                          items.length > 0
+                            ? _c(
+                                "transition-group",
+                                { tag: "tbody", attrs: { name: "list" } },
+                                _vm._l(items, function (item) {
+                                  return _c(
+                                    "tr",
+                                    { key: item.id, staticClass: "item-row" },
+                                    [
+                                      _c("td", [_vm._v(_vm._s(item.id))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(_vm._s(item.user.name)),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(item.title))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c(
+                                          "div",
+                                          { attrs: { "data-app": "" } },
+                                          [
+                                            _c("album-update-modal", {
+                                              attrs: { albumId: item.id },
+                                              on: {
+                                                onSubmitSuccess: function (
+                                                  $event
+                                                ) {
+                                                  return _vm.getAllAlbums()
+                                                },
+                                              },
+                                            }),
+                                            _vm._v(" "),
+                                            _c("album-delete-modal", {
+                                              attrs: { albumId: item.id },
+                                              on: {
+                                                onSubmitSuccess: function (
+                                                  $event
+                                                ) {
+                                                  return _vm.getAllAlbums()
+                                                },
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                      ]),
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            : _c("tbody", [
+                                _c("tr", [
+                                  _c(
+                                    "td",
+                                    {
+                                      staticStyle: { "text-align": "center" },
+                                      attrs: { colspan: headers.length },
+                                    },
+                                    [_vm._v("No data available.")]
+                                  ),
+                                ]),
+                              ]),
                         ]
                       },
                     },
@@ -40563,49 +40701,85 @@ var render = function () {
                   },
                   scopedSlots: _vm._u([
                     {
-                      key: "item.thumbnailUrl",
+                      key: "body",
                       fn: function (ref) {
-                        var item = ref.item
+                        var items = ref.items
+                        var headers = ref.headers
                         return [
-                          _c("img", {
-                            attrs: {
-                              width: "50px",
-                              src: item.thumbnailUrl,
-                              alt: item.title,
-                            },
-                          }),
-                        ]
-                      },
-                    },
-                    {
-                      key: "item.action",
-                      fn: function (ref) {
-                        var item = ref.item
-                        return [
-                          _c(
-                            "div",
-                            { attrs: { "data-app": "" } },
-                            [
-                              _c("photo-update-modal", {
-                                attrs: { photoId: item.id },
-                                on: {
-                                  onSubmitSuccess: function ($event) {
-                                    return _vm.getAllPhotos()
-                                  },
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("photo-delete-modal", {
-                                attrs: { photoId: item.id },
-                                on: {
-                                  onSubmitSuccess: function ($event) {
-                                    return _vm.getAllPhotos()
-                                  },
-                                },
-                              }),
-                            ],
-                            1
-                          ),
+                          items.length > 0
+                            ? _c(
+                                "transition-group",
+                                { tag: "tbody", attrs: { name: "list" } },
+                                _vm._l(items, function (item) {
+                                  return _c(
+                                    "tr",
+                                    { key: item.id, staticClass: "item-row" },
+                                    [
+                                      _c("td", [_vm._v(_vm._s(item.id))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(_vm._s(item.album.title)),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(item.title))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("img", {
+                                          attrs: {
+                                            width: "50px",
+                                            src: item.thumbnailUrl,
+                                            alt: item.title,
+                                          },
+                                        }),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c(
+                                          "div",
+                                          { attrs: { "data-app": "" } },
+                                          [
+                                            _c("photo-update-modal", {
+                                              attrs: { photoId: item.id },
+                                              on: {
+                                                onSubmitSuccess: function (
+                                                  $event
+                                                ) {
+                                                  return _vm.getAllPhotos()
+                                                },
+                                              },
+                                            }),
+                                            _vm._v(" "),
+                                            _c("photo-delete-modal", {
+                                              attrs: { photoId: item.id },
+                                              on: {
+                                                onSubmitSuccess: function (
+                                                  $event
+                                                ) {
+                                                  return _vm.getAllPhotos()
+                                                },
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                      ]),
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            : _c("tbody", [
+                                _c("tr", [
+                                  _c(
+                                    "td",
+                                    {
+                                      staticStyle: { "text-align": "center" },
+                                      attrs: { colspan: headers.length },
+                                    },
+                                    [_vm._v("No data available.")]
+                                  ),
+                                ]),
+                              ]),
                         ]
                       },
                     },
@@ -40758,34 +40932,73 @@ var render = function () {
                   },
                   scopedSlots: _vm._u([
                     {
-                      key: "item.action",
+                      key: "body",
                       fn: function (ref) {
-                        var item = ref.item
+                        var items = ref.items
+                        var headers = ref.headers
                         return [
-                          _c(
-                            "div",
-                            { attrs: { "data-app": "" } },
-                            [
-                              _c("user-update-modal", {
-                                attrs: { userId: item.id },
-                                on: {
-                                  onSubmitSuccess: function ($event) {
-                                    return _vm.getAllUsers()
-                                  },
-                                },
-                              }),
-                              _vm._v(" "),
-                              _c("user-delete-modal", {
-                                attrs: { userId: item.id },
-                                on: {
-                                  onSubmitSuccess: function ($event) {
-                                    return _vm.getAllUsers()
-                                  },
-                                },
-                              }),
-                            ],
-                            1
-                          ),
+                          items.length > 0
+                            ? _c(
+                                "transition-group",
+                                { tag: "tbody", attrs: { name: "list" } },
+                                _vm._l(items, function (item) {
+                                  return _c(
+                                    "tr",
+                                    { key: item.id, staticClass: "item-row" },
+                                    [
+                                      _c("td", [_vm._v(_vm._s(item.id))]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(item.name))]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(item.email))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c(
+                                          "div",
+                                          { attrs: { "data-app": "" } },
+                                          [
+                                            _c("user-update-modal", {
+                                              attrs: { userId: item.id },
+                                              on: {
+                                                onSubmitSuccess: function (
+                                                  $event
+                                                ) {
+                                                  return _vm.getAllUsers()
+                                                },
+                                              },
+                                            }),
+                                            _vm._v(" "),
+                                            _c("user-delete-modal", {
+                                              attrs: { userId: item.id },
+                                              on: {
+                                                onSubmitSuccess: function (
+                                                  $event
+                                                ) {
+                                                  return _vm.getAllUsers()
+                                                },
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                      ]),
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            : _c("tbody", [
+                                _c("tr", [
+                                  _c(
+                                    "td",
+                                    {
+                                      staticStyle: { "text-align": "center" },
+                                      attrs: { colspan: headers.length },
+                                    },
+                                    [_vm._v("No data available.")]
+                                  ),
+                                ]),
+                              ]),
                         ]
                       },
                     },
@@ -41064,7 +41277,14 @@ var render = function () {
                 "button",
                 _vm._g(
                   _vm._b(
-                    { staticClass: "btn btn-action" },
+                    {
+                      staticClass: "btn btn-action",
+                      on: {
+                        click: function ($event) {
+                          return _vm.checkAlbumData(_vm.albumId)
+                        },
+                      },
+                    },
                     "button",
                     attrs,
                     false
@@ -41091,11 +41311,11 @@ var render = function () {
         "v-card",
         [
           _c("v-card-title", { staticClass: "text-h5" }, [
-            _vm._v("\n            Are you sure?\n        "),
+            _vm._v("\n            " + _vm._s(_vm.dialogHeader) + "\n        "),
           ]),
           _vm._v(" "),
           _c("v-card-text", [
-            _vm._v("\n            Data will be deleted permanently.\n        "),
+            _vm._v("\n            " + _vm._s(_vm.dialogBody) + "\n        "),
           ]),
           _vm._v(" "),
           _c(
@@ -41116,18 +41336,20 @@ var render = function () {
                 [_vm._v("\n                Cancel\n            ")]
               ),
               _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { color: "red darken-1", text: "" },
-                  on: {
-                    click: function ($event) {
-                      return _vm.deleteAlbum(_vm.albumId)
+              _vm.canDelete
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "red darken-1", text: "" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.deleteAlbum(_vm.albumId)
+                        },
+                      },
                     },
-                  },
-                },
-                [_vm._v("\n                Agree\n            ")]
-              ),
+                    [_vm._v("\n                Agree\n            ")]
+                  )
+                : _vm._e(),
             ],
             1
           ),
@@ -42135,7 +42357,14 @@ var render = function () {
                 "button",
                 _vm._g(
                   _vm._b(
-                    { staticClass: "btn btn-action" },
+                    {
+                      staticClass: "btn btn-action",
+                      on: {
+                        click: function ($event) {
+                          return _vm.checkUserData(_vm.userId)
+                        },
+                      },
+                    },
                     "button",
                     attrs,
                     false
@@ -42162,11 +42391,11 @@ var render = function () {
         "v-card",
         [
           _c("v-card-title", { staticClass: "text-h5" }, [
-            _vm._v("\n            Are you sure?\n        "),
+            _vm._v("\n            " + _vm._s(_vm.dialogHeader) + "\n        "),
           ]),
           _vm._v(" "),
           _c("v-card-text", [
-            _vm._v("\n            Data will be deleted permanently.\n        "),
+            _vm._v("\n            " + _vm._s(_vm.dialogBody) + "\n        "),
           ]),
           _vm._v(" "),
           _c(
@@ -42187,18 +42416,20 @@ var render = function () {
                 [_vm._v("\n                Cancel\n            ")]
               ),
               _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { color: "red darken-1", text: "" },
-                  on: {
-                    click: function ($event) {
-                      return _vm.deleteUser(_vm.userId)
+              _vm.canDelete
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "red darken-1", text: "" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.deleteUser(_vm.userId)
+                        },
+                      },
                     },
-                  },
-                },
-                [_vm._v("\n                Agree\n            ")]
-              ),
+                    [_vm._v("\n                Agree\n            ")]
+                  )
+                : _vm._e(),
             ],
             1
           ),
