@@ -41,7 +41,7 @@
                                 class="elevation-2">
                                 <template v-slot:body="{items, headers}">
                                     <tbody name="list" is="transition-group" v-if="items.length > 0">
-                                        <tr v-for="item in items" :key="item.id" class="item-row">
+                                        <tr v-for="item in items" :key="item.id" class="album-list item-row" @click="goToAlbum(item.id)">
                                         <td>{{item.id}}</td>
                                         <td>{{item.user.name}}</td>
                                         <td>{{item.title}}</td>
@@ -108,6 +108,9 @@
             this.getAllUsers();
         },
         methods: {
+            goToAlbum(id) {
+                this.$router.push({ path: `/album/${id}` })
+            },
             getAllUsers() {
                 this.axios
                     .get(`${this.apiUrl}users`)

@@ -75,7 +75,7 @@
             this.errors = [];
             this.isEditing = true;
             this.axios
-                .get(`${this.apiUrl}users/${id}`)
+                .get(`/${this.apiUrl}users/${id}`)
                 .then((response) => {
                     this.user = response.data;
                 });
@@ -84,7 +84,7 @@
             this.errors = [];
             this.success = false;
             this.axios
-                .put(`${this.apiUrl}users/${this.user.id}`, this.user)
+                .put(`/${this.apiUrl}users/${this.user.id}`, this.user)
                 .then((response) => {
                     this.success = response.data.success;
                     this.alertMessage = response.data.message;

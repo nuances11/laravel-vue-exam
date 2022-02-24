@@ -40,10 +40,9 @@
         methods: {
             checkAlbumData(id) {
                 this.axios
-                    .get(`${this.apiUrl}albums/${id}`)
+                    .get(`/${this.apiUrl}albums/${id}`)
                     .then(response => {
                         if(response.data.photos.length) {
-                            console.log('Has existing photos');
                             this.canDelete = false;
                             this.dialogHeader = 'Action failed';
                             this.dialogBody = 'Can\'t delete albums with existing photos.';
@@ -56,7 +55,7 @@
             },
             deleteAlbum(id) {
                 this.axios
-                    .delete(`${this.apiUrl}albums/${id}`)
+                    .delete(`/${this.apiUrl}albums/${id}`)
                     .then(response => {
                         this.getAllAlbums();
                         let i = this.albums.map(album => album.id).indexOf(id); // find index of your object

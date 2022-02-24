@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Album::class);
     }
+
+    public function photos()
+    {
+        return $this->hasManyThrough(Photo::class, Album::class);
+    }
 }

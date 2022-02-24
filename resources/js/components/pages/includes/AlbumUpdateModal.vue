@@ -73,7 +73,7 @@
     methods: {
         getAllUsers() {
             this.axios
-                .get(`${this.apiUrl}users`)
+                .get(`/${this.apiUrl}users`)
                 .then(response => {
                     this.users = response.data;
             });
@@ -85,7 +85,7 @@
             this.errors = [];
             this.isEditing = true;
             this.axios
-                .get(`${this.apiUrl}albums/${id}`)
+                .get(`/${this.apiUrl}albums/${id}`)
                 .then((response) => {
                     this.album = response.data;
                     this.getAllUsers();
@@ -93,7 +93,7 @@
         },
         updateAlbum() {
             this.axios
-                .put(`${this.apiUrl}albums/${this.album.id}`, this.album)
+                .put(`/${this.apiUrl}albums/${this.album.id}`, this.album)
                 .then((response) => {
                     this.success = response.data.success;
                     this.alertMessage = response.data.message;

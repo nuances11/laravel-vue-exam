@@ -36,16 +36,16 @@
                                 loading-text="Loading... Please wait" class="elevation-2">
                                 <template v-slot:body="{items, headers}">
                                     <tbody name="list" is="transition-group" v-if="items.length > 0">
-                                        <tr v-for="item in items" :key="item.id" class="item-row">
-                                        <td>{{item.id}}</td>
-                                        <td>{{item.name}}</td>
-                                        <td>{{item.email}}</td>
-                                        <td>
-                                            <div data-app>
-                                                <user-update-modal @onSubmitSuccess="getAllUsers()" :userId="item.id"></user-update-modal>
-                                        <user-delete-modal @onSubmitSuccess="getAllUsers()" :userId="item.id"></user-delete-modal>
-                                            </div>
-                                        </td>
+                                        <tr v-for="item in items" :key="item.id" class="user-list item-row" @click="goToUser(item.id)">
+                                            <td>{{item.id}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{item.email}}</td>
+                                            <td>
+                                                <div data-app>
+                                                    <user-update-modal @onSubmitSuccess="getAllUsers()" :userId="item.id"></user-update-modal>
+                                                    <user-delete-modal @onSubmitSuccess="getAllUsers()" :userId="item.id"></user-delete-modal>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                     <tbody v-else>
@@ -113,6 +113,9 @@
             this.getAllUsers();
         },
         methods: {
+            goToUser(id) {
+                this.$router.push({ path: `/user/${id}` })
+            },
             getAllUsers() {
                 this.axios
                     .get(`${this.apiUrl}users`, { params: { keyword: this.search } })

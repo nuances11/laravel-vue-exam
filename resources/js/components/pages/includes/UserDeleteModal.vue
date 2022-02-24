@@ -40,10 +40,9 @@
         methods: {
             checkUserData(id) {
                 this.axios
-                    .get(`${this.apiUrl}users/${id}`)
+                    .get(`/${this.apiUrl}users/${id}`)
                     .then(response => {
                         if(response.data.albums.length) {
-                            console.log('Has existing albums');
                             this.canDelete = false;
                             this.dialogHeader = 'Action failed';
                             this.dialogBody = 'Can\'t delete users with existing albums.';
@@ -56,7 +55,7 @@
             },
             deleteUser(id) {
                 this.axios
-                    .delete(`${this.apiUrl}users/${id}`)
+                    .delete(`/${this.apiUrl}users/${id}`)
                     .then(response => {
                         this.getAllUsers();
                         let i = this.users.map(user => user.id).indexOf(id); // find index of your object
