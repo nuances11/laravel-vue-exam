@@ -41,7 +41,12 @@
                 <!-- Album Card -->
                 <div class="col-xs-12 col-md-8 col-lg-9">
                     <div class="box">
-                        <h2 class="boxTitle">Album Photos</h2>
+                        <div class="box-header d-flex flex-wrap justify-content-between">
+                            <h2 class="boxTitle">Album Photos</h2>
+                            <div data-app>
+                                <photo-add-modal :albumId="album.id" @onSubmitSuccess="getAlbumDetails(album.id)"></photo-add-modal>
+                            </div>
+                        </div>
                         <hr>
                         <div class="row image-list">
                             <div class="col-md-3 col-sm-6" v-for="photo in album.photos"  :key="photo.id">
@@ -58,10 +63,12 @@
 <script>
     import AlbumUpdateModal from '../includes/AlbumUpdateModal.vue';
     import AlbumDeleteModal from '../includes/AlbumDeleteModal.vue';
+    import PhotoAddModal from './includes/PhotoAddModal.vue';
     export default {
         components: {
             AlbumDeleteModal,
-            AlbumUpdateModal
+            AlbumUpdateModal,
+            PhotoAddModal
         },
         data(){
             return{

@@ -40,13 +40,19 @@
                 <!-- Album Card -->
                 <div class="col-xs-12 col-md-8 col-lg-9">
                     <div class="box">
-                        <h2 class="boxTitle">Album list</h2>
+                        <div class="box-header d-flex flex-wrap justify-content-between">
+                            <h2 class="boxTitle">Album List</h2>
+                            <div data-app>
+                                <album-add-modal :userId="user.id" @onSubmitSuccess="getUserDetails(user.id)"></album-add-modal>
+                            </div>
+                        </div>
+
                         <hr>
                         <ul class="list-group list-group-flush album-list">
                             <li v-for="album in user.albums" :key="album.id" class="align-items-center d-flex flex-column flex-sm-row flex-wrap justify-content-between list-group-item">
                                 <h6 class="mb-0"><strong>{{ album.title }}</strong></h6>
                                 <div data-app class="text-right m-1">
-                                    <button class="btn btn-action" @click="goToAlbum(user.id)">
+                                    <button class="btn btn-action" @click="goToAlbum(album.id)">
                                         <i class="bi bi-eye"></i>
                                     </button>
                                     <album-update-modal @onSubmitSuccess="getUserDetails(user.id)" :albumId="album.id"></album-update-modal>
@@ -76,12 +82,14 @@
     import UserDeleteModal from '../includes/UserDeleteModal.vue';
     import AlbumUpdateModal from '../includes/AlbumUpdateModal.vue';
     import AlbumDeleteModal from '../includes/AlbumDeleteModal.vue';
+    import AlbumAddModal from './includes/AlbumAddModal.vue';
     export default {
         components: {
             UserUpdateModal,
             UserDeleteModal,
             AlbumDeleteModal,
-            AlbumUpdateModal
+            AlbumUpdateModal,
+            AlbumAddModal
         },
         data(){
             return{
